@@ -10,6 +10,9 @@
 // This command will send "Cal,0" to the pressure sensor.
 
 #include <SoftwareSerial.h>
+#include "RTClib.h"
+
+RTC_DS3231 rtc;
 
 SoftwareSerial portPressure(2,3); // rx=2, tx=3
 SoftwareSerial portHumidity(8,9); // rx=8, tx=9
@@ -117,7 +120,6 @@ void loop() {
         final_reading += HUM;
         final_reading += " | Temperature:";
         final_reading += TMP;
-        //print_Humidity_data();
 
       }
       sensorstringHumidity = "";
@@ -140,54 +142,16 @@ void loop() {
         if (isdigit(sensorstringPressure[0])) {
           final_reading += " | Pressure:";
           final_reading += sensorstringPressure;
-          //Serial.println();
-          //Serial.print("Pressure,");
-          //Serial.print(sensorstringPressure);
-          //Serial.println(",PSI");
         }
         sensorstringPressure = "";
         sensor_string_complete_Pressure = false;
-        Serial.println(final_reading);
+        if (final_reading.startsWith("Humidity")){
+          final_reading += " | Timestamp:";
+          final_reading += millis();
+          Serial.println(final_reading);
+        }
         final_reading = "";
       }
     }
   }
-}
-
-void print_Humidity_data(void) {                      //this function will pars the string  
-
-  char sensorstring_array[30];                        //we make a char array
-  char *HUM;                                          //char pointer used in string parsing.
-  char *TMP;                                          //char pointer used in string parsing.
-  char *NUL;                                          //char pointer used in string parsing (the sensor outputs some text that we don't need).
-  char *DEW;                                          //char pointer used in string parsing.
-
-  float HUM_float;                                      //float var used to hold the float value of the humidity.
-  float TMP_float;                                      //float var used to hold the float value of the temperatur.
-  float DEW_float;                                      //float var used to hold the float value of the dew point.
-  
-  sensorstringHumidity.toCharArray(sensorstring_array, 30);   //convert the string to a char array 
-  HUM = strtok(sensorstring_array, ",");              //let's pars the array at each comma
-  TMP = strtok(NULL, ",");                            //let's pars the array at each comma
-  NUL = strtok(NULL, ",");                            //let's pars the array at each comma (the sensor outputs the word "DEW" in the string, we dont need it)
-  DEW = strtok(NULL, ",");                            //let's pars the array at each comma
-
-  Serial.println();                                   //this just makes the output easier to read by adding an extra blank line. 
-  Serial.print("Humidity,");                               //we now print each value we parsed separately.
-  Serial.println(HUM);                                //this is the humidity value.
-
-  Serial.println();
-  Serial.print("Temperature,");                           //we now print each value we parsed separately.
-  Serial.print(TMP);                                //this is the air temperatur value.
-  Serial.println(",C");
-
-  //Serial.print("DEW:");                               //we now print each value we parsed separately.
-  //Serial.println(DEW);                                //this is the dew point.
-
-  //uncomment this section if you want to take the values and convert them into floating point number.
-  /*
-    HUM_float=atof(HUM);
-    TMP_float=atof(TMP);
-    DEW_float=atof(DEW);
-  */
 }
