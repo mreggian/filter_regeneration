@@ -28,6 +28,8 @@ boolean sensor_string_complete_Pressure = false;
 String sensorstringHumidity = ""; 
 boolean sensor_string_complete_Humidity = false;
 
+String final_reading = "";
+
 void setup() {
   
   // start serial ports
@@ -103,7 +105,20 @@ void loop() {
         Serial.println(sensorstringHumidity);
       }
       else {
-        print_Humidity_data();
+        char sensorstring_array[30];                        
+        char *HUM;                                          
+        char *TMP;
+        float HUM_float;                                      //float var used to hold the float value of the humidity.
+        float TMP_float;                                      //float var used to hold the float value of the temperatur.
+        sensorstringHumidity.toCharArray(sensorstring_array, 30);   //convert the string to a char array 
+        HUM = strtok(sensorstring_array, ",");              //let's pars the array at each comma
+        TMP = strtok(NULL, ",");                            //let's pars the array at each comma
+        final_reading += "Humidity:";
+        final_reading += HUM;
+        final_reading += " | Temperature:";
+        final_reading += TMP;
+        //print_Humidity_data();
+
       }
       sensorstringHumidity = "";
       sensor_string_complete_Humidity = false;
@@ -123,13 +138,17 @@ void loop() {
       }
       if (sensor_string_complete_Pressure == true) {
         if (isdigit(sensorstringPressure[0])) {
-          Serial.println();
-          Serial.print("Pressure,");
-          Serial.print(sensorstringPressure);
-          Serial.println(",PSI");
+          final_reading += " | Pressure:";
+          final_reading += sensorstringPressure;
+          //Serial.println();
+          //Serial.print("Pressure,");
+          //Serial.print(sensorstringPressure);
+          //Serial.println(",PSI");
         }
         sensorstringPressure = "";
         sensor_string_complete_Pressure = false;
+        Serial.println(final_reading);
+        final_reading = "";
       }
     }
   }
