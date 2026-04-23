@@ -15,7 +15,7 @@ Variables of interest, the the name of the device used for collecting this infor
 Please grab the "Filter Regeneration Kit", it should contain the following items:
 * 1x [PTC10 Temperature Controller](https://www.thinksrs.com/products/ptc10.html) with PTC330K and PTC420 cards
 * 2x [heating tapes](https://www.mcmaster.com/3641K17/);
-* Extantion cord (to be used with heating tapes);
+* Extension cord (to be used with heating tapes);
 * [EZO-PRS](https://atlas-scientific.com/product/pressure-sensor/?srsltid=AfmBOopZfapj54Jq4X8SrQzSNvsDnx7D30NAhOcFSfpvjAbZaWylhGV-) and [EZO-HUM](https://atlas-scientific.com/probes/humidity-probe/?srsltid=AfmBOooUSNPaoxlnDZgBcq05bG310ZNOctu_RlRq1W5-tr1qAW-cpYpQ) sensors;
 * Acrylic board with two arduinos;
 * 3x USB cables (2 long, 1 short);
@@ -52,6 +52,5 @@ The steps below will consider that you already have all the devices properly ins
     3. Create a virtual environment: `python3 -m venv venv_regeneration`
     4. Activate your virtual environment: `source venv_regeneration/bin/activate`
     5. Install packages: `pip install -r venv_regeneration.txt`
-2. Make sure devices are conn
 
 ### Starting the Regeneration Process
