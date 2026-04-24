@@ -54,6 +54,7 @@ The steps below will consider that you already have all the devices properly ins
     3. Create a virtual environment: `python3 -m venv venv_regeneration`
     4. Activate your virtual environment: `source venv_regeneration/bin/activate`
     5. Install packages: `pip install -r venv_regeneration.txt`
+    6. Install Tkinter library (necessary for interactive canvas): `sudo apt-get install python3-tk`
 2. Connect PTC10 and Arduino boards to computer, make sure to follow labels on the back of the computer
 <img width="678" height="635" alt="Screenshot 2026-04-24 at 11 29 33" src="https://github.com/user-attachments/assets/9ea1637d-b0aa-49cd-8983-e55d41215518" />
 
