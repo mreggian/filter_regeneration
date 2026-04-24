@@ -17,7 +17,8 @@ if __name__ == "__main__":
     # ===
     # Initial configuration, make sure everything is correct here
     output_file = f"daq/ptc10_output_{datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S')}.txt"
-    port = '/dev/tty.usbserial-DK0AQB0V'
+    #port = '/dev/tty.usbserial-DK0AQB0V' # Marina's computer
+    port = '/dev/ttyUSB0' # lab's computer
 
     # plotting
     create_plot = True
