@@ -12,6 +12,11 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+from influxdb_config import token, ORG, url, BUCKET
+import influxdb_client, os, time
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
+
 if __name__ == "__main__":
 
     # ===
@@ -24,6 +29,9 @@ if __name__ == "__main__":
     create_plot = True
     N_data = 600 # number of points to display
     set_point = float(50) # temperature goal, plot a horizontal line for visual purposes
+
+    client = InfluxDBClient(url=url, token=token, org=ORG)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
     
     # === 
     # Initial plotting configuration
@@ -88,6 +96,12 @@ if __name__ == "__main__":
                 time.sleep(1)
                 continue
 
+            # save new points to InfluxDB
+            point_power = Point("ptc10").field("power", var_power)
+            point_temp = Point("ptc10").field("temp", var_temp)
+            write_api.write(bucket=BUCKET, org=ORG, record=point_power)
+            write_api.write(bucket=BUCKET, org=ORG, record=point_temp)
+            
             # Retrieve timestamp
             timestamp = time.time()
             timestamp_date = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d')
@@ -125,6 +139,7 @@ if __name__ == "__main__":
         
         # Close serial connection after daq is finished
         ser.close()
+        client.close()
     
     else:
         print("Device not connected. Closing script.")
