@@ -1,4 +1,6 @@
-Author: Marina Reggiani-Guzzo (Syracuse University) | Last modified: April 23, 2023
+Author: Marina Reggiani-Guzzo (Syracuse University)
+
+Last modified: April 24, 2023
 
 # Filter Regeneration
 
@@ -23,10 +25,10 @@ Please grab the "Filter Regeneration Kit", it should contain the following items
 * Orange hose (for exhaust system);
 * Exhaust fan and black hose;
 * Regulator, flowmeter and hose system (to be connected to dewar);
-* VCR to NPT adapter;
+* [VCR to NPT adapter](https://www.mcmaster.com/9066N406/);
 * Purchase:
   * Gas mix (95% argon and 5% hydrogen)
-  * Fiberglass blanket (https://www.mcmaster.com/4579N12/)
+  * [Fiberglass blanket](https://www.mcmaster.com/4579N12/)
 
 Follow the instructions below:
 
@@ -52,5 +54,11 @@ The steps below will consider that you already have all the devices properly ins
     3. Create a virtual environment: `python3 -m venv venv_regeneration`
     4. Activate your virtual environment: `source venv_regeneration/bin/activate`
     5. Install packages: `pip install -r venv_regeneration.txt`
+2. Connect PTC10 and Arduino boards to computer, make sure to follow labels on the back of the computer
+<img width="678" height="635" alt="Screenshot 2026-04-24 at 11 29 33" src="https://github.com/user-attachments/assets/9ea1637d-b0aa-49cd-8983-e55d41215518" />
+
+3. Activate USB ports: `sudo chmod a+rw /dev/ttyACM1 /dev/ttyACM0 /dev/ttyUSB0`
+4. [Not required] Upload scripts to Arduino boards. Not necessarily required if you're using the Arduino boards from the kit provided, as they already have the scripts in place.
+5. 
 
 ### Starting the Regeneration Process
