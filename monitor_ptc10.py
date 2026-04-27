@@ -19,25 +19,26 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 if __name__ == "__main__":
 
-    # ===
+    # ==============================================================================================================
+    # Please ensure the following is accurate before running the script, otherwise it may not work properly or at all. If you have any questions, please ask Marina.
+
     # Initial configuration, make sure everything is correct here
     output_file = f"daq/ptc10_output_{datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S')}.txt"
-    #port = '/dev/tty.usbserial-DK0AQB0V' # Marina's computer
-    port = '/dev/ttyUSB0' # lab's computer
+    port = '/dev/ttyUSB0' # lab's computer ('/dev/tty.usbserial-DK0AQB0V' on Marina's computer)
 
-    # plotting
-    create_plot = True
+    create_plot = False # do you want to create a real-time plot of the data? if so, make sure to have the variables below correct
     N_data = 600 # number of points to display
     set_point = float(50) # temperature goal, plot a horizontal line for visual purposes
 
+    # ==============================================================================================================
+
+    # Start InfluxDB client
     client = InfluxDBClient(url=url, token=token, org=ORG)
     write_api = client.write_api(write_options=SYNCHRONOUS)
-    
-    # === 
-    # Initial plotting configuration
 
+    # Initialize plot
     if create_plot:
-        # define arrays for plotting
+
         y_power = deque(maxlen=N_data)
         y_temp = deque(maxlen=N_data)
         y_setpoint = deque(maxlen=N_data)
@@ -49,9 +50,6 @@ if __name__ == "__main__":
         line_setpoint, = axs[1].plot([], [], linestyle='dashed', color='red')
         line_temp,  = axs[1].plot([], [])
 
-    # ===
-    # start script
-
     # Create the folder and any missing parents; do nothing if it already exists
     Path("daq").mkdir(parents=True, exist_ok=True)
 
@@ -59,14 +57,15 @@ if __name__ == "__main__":
     with open(output_file, 'a') as f:
         f.write('timestamp date time temperature power\n')
 
+    # If port connected, start daq, otherwise print error message and close script
     if os.path.exists(port):
 
         t_start = time.time()
 
-        # establish serial connection
+        # Establish serial connection
         ser = serial.Serial(port, 230400, timeout=1)
 
-        # start collecting data from PTC10
+        # Start collecting data from PTC10
         while True:
 
             # collect information from PTC10
@@ -96,7 +95,7 @@ if __name__ == "__main__":
                 time.sleep(1)
                 continue
 
-            # save new points to InfluxDB
+            # Save new points to InfluxDB
             point_power = Point("ptc10").field("power", var_power)
             point_temp = Point("ptc10").field("temp", var_temp)
             write_api.write(bucket=BUCKET, org=ORG, record=point_power)
@@ -111,6 +110,7 @@ if __name__ == "__main__":
                 f.write(f'{timestamp} {timestamp_date} {timestamp_time} {var_temp} {var_power}\n')
 
             if create_plot:
+
                 y_power.append(var_power)
                 y_temp.append(var_temp)
                 y_setpoint.append(set_point)
