@@ -11,6 +11,10 @@ source venv_regeneration/bin/activate
 echo 'Activating USB ports...'
 sudo chmod a+rw /dev/ttyUSB0 /dev/ttyACM0 /dev/ttyACM1
 
+# start collecting data from ptc10
+echo 'Starting data collection from ptc10...'
+python3 ptc10.py &
+
 # Open two windows of CoolTerm
 echo 'Opening CoolTerm...'
 gnome-terminal -- bash -c "cd /home/syr-neutrino/Downloads/CoolTermLinux64Bit/ && ./CoolTerm"
@@ -18,7 +22,7 @@ gnome-terminal -- bash -c "cd /home/syr-neutrino/Downloads/CoolTermLinux64Bit/ &
 
 echo '\nSetup complete. Please configure CoolTerm as follows:'
 echo '> 1. Click on Connection>Options>SerialPort and select "/dev/ttyACM0" for the environment data and "/dev/ttyACM1" for the pressure data. Click "Ok".'
-echo '> 2. Click on Cnnection>Options>FileCapture and unselect "Leave file open after capture". Click "Ok".'
+echo '> 2. Click on Conection>Options>FileCapture and unselect "Leave file open after capture". Click "Ok".'
 echo '> 3. Click on Connection>FileCapture>Start, it will prompt you to name your text file. Make sure to save it under /home/syr-neutrino/Desktop/filter_regeneration/daq/ and name it "env_YYYY-MM-DD.txt" for the environment data and "prs_YYYY-MM-DD.txt" for the pressure data, where YYYY-MM-DD is the current date. Click "Save".'
 
 # Go back to original directory
