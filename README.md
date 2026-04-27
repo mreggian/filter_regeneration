@@ -40,26 +40,20 @@ Follow the instructions below:
 7. Connect fan hose to exhaust venting system of the lab.
 
 The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous time we regenerated the filter. But, follow steps below in case you need to re-calibrate them.
-* **EZO-PRS sensor**.
-* **EZO-HUM sensor**.
+* **EZO-PRS sensor**. Use the 1/4" NPTM-1/2" VCRF adaptor to connect the EZO-PRS sensor directly to the hose coming from the argon-gas-mix dewar. Set pressure on regulator to 5 PSI, and use command `Cal,5` on ArduinoUNO software.
+* **EZO-HUM sensor**. We used the temperature probe connected to the body of the filter as our thermometer. We want both temperature sensors (EZO-HUM and Temperature Probe type K) to have the same initial reading. Once you know the room temperature use command `Cal,20` (if temperature is 20C) on ArduinoUNO software.
 
 
 ## Software Preparation
 
 The steps below will consider that you already have all the devices properly installed and ready for data acquisition.
 
-1. Download files and prepare environment
+1. [Only required on first time] Download files and prepare environment
     1. Download repository on the computer you're going to use for the procedure
     2. Open the repository on a terminal
     3. Create a virtual environment: `python3 -m venv venv_regeneration`
     4. Activate your virtual environment: `source venv_regeneration/bin/activate`
     5. Install packages: `pip install -r venv_regeneration.txt`
-    6. Install Tkinter library (necessary for interactive canvas): `sudo apt-get install python3-tk`
-2. Connect PTC10 and Arduino boards to computer, make sure to follow labels on the back of the computer
-<img width="678" height="635" alt="Screenshot 2026-04-24 at 11 29 33" src="https://github.com/user-attachments/assets/9ea1637d-b0aa-49cd-8983-e55d41215518" />
-
-3. Activate USB ports: `sudo chmod a+rw /dev/ttyACM1 /dev/ttyACM0 /dev/ttyUSB0`
-4. [Not required] Upload scripts to Arduino boards. Not necessarily required if you're using the Arduino boards from the kit provided, as they already have the scripts in place.
-5. 
+2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal.
 
 ### Starting the Regeneration Process
