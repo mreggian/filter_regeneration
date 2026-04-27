@@ -48,6 +48,15 @@ The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous t
 
 The steps below will consider that you already have all the devices properly installed and ready for data acquisition.
 
+You should also have a file `influxdb_config.py` with the following information
+```
+token = ""
+root_token = ""
+ORG = ""
+BUCKET = ""
+url = ""
+```
+
 1. [Only required on first time] Download files and prepare environment
     1. Download repository on the computer you're going to use for the procedure
     2. Open the repository on a terminal
@@ -55,5 +64,7 @@ The steps below will consider that you already have all the devices properly ins
     4. Activate your virtual environment: `source venv_regeneration/bin/activate`
     5. Install packages: `pip install -r venv_regeneration.txt`
 2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal.
+3. Open terminal and run `python3 monitor_ptc10.py`. It collects and sends data from PTC10 to InfluxDB.
+4. Make sure file names are correct on `realtimeplotting.py`. Open terminal and run `python3 realtimeplotting.py`. It collects and sends data from EZO sensors to InfluxDB.
 
 ### Starting the Regeneration Process
