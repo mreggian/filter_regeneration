@@ -30,6 +30,9 @@ def create_dataframe(filename: str):
 
 def calc_water_vapor_concentration(df: pd.DataFrame, P=101325):
 
+    # For reference:
+    # https://www.processsensing.com/en-us/blog/converting-dew-point-other-measuring-units.htm
+
     # convert celcius to kelvin
     df["measurement_K"] = df["measurement"] + 273.15
     T = df["measurement_K"]
