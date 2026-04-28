@@ -58,29 +58,24 @@ def calc_water_vapor_concentration(df: pd.DataFrame, P=101325):
 
 if __name__ == "__main__":
 
-    df = create_dataframe('backup_ptc_data.csv')
+    df = create_dataframe('daq/backup_ptc_data.csv')
     df = df[df.tag=="temp"]
     df = df.iloc[::20]
     df.reset_index(drop=True, inplace=True)
 
-    df_ezo = create_dataframe('backup_ezohum_data.csv')
+    df_ezo = create_dataframe('daq/backup_ezohum_data.csv')
     df_ezo = df_ezo[df_ezo.tag=='dewpoint']
     df_ezo = df_ezo.iloc[::20]
     df_ezo = calc_water_vapor_concentration(df_ezo.copy())
     df_ezo.reset_index(drop=True, inplace=True)
-    print(df_ezo.head())
 
 
     fig, ax1 = plt.subplots()
 
     # Left y-axis → Temperature
-    #ax1.set_xlabel("Seconds since t0")
     ax1.set_ylabel("Water Vapor Concentration [ppm]", color="tab:red")
     ax1.plot(range(0,len(df_ezo)), df_ezo['ppmv'], color="tab:red", linewidth=2)
     ax1.tick_params(axis="y", labelcolor="tab:red")
-    #ax1.tick_params(axis='x', rotation=45)
-    #ax1.axhline(y=50, color="red", linestyle="--", linewidth=1)
-    #ax1.axhline(y=90, color="red", linestyle="--", linewidth=1)
     ax1.yaxis.set_major_locator(MaxNLocator(nbins=10))
     ax1.xaxis.set_major_locator(MaxNLocator(nbins=6))
 
@@ -91,29 +86,14 @@ if __name__ == "__main__":
     ax2.tick_params(axis="y", labelcolor="tab:blue")
     ax2.yaxis.set_major_locator(MaxNLocator(nbins=10))
 
-    #plt.title("Temperature and Power vs Time")
 
-    lines_1, labels_1 = ax1.get_legend_handles_labels()
-    lines_2, labels_2 = ax2.get_legend_handles_labels()
-    #ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc="best")
-
-    #ax1.grid(True)
-
-    tick_positions = ax1.get_xticks() # get the x position of the ticks
-    tick_positions = tick_positions[1:-1] # remove first and last entries
-    arr = df.loc[tick_positions, "timestamp"].to_numpy() # retrieve timestamp from dataframe from the selected entries
+    tick_positions = ax1.get_xticks() 
+    tick_positions = tick_positions.astype(int) 
+    tick_positions = tick_positions[(tick_positions >= 0) & (tick_positions < len(df_ezo))]
+    arr = df_ezo.iloc[tick_positions]["timestamp"].to_numpy() # retrieve timestamp from dataframe from the selected entries
     timestamp_readable = pd.to_datetime(arr).strftime("%b %-d, %Y\n%H:%M:%S") # re-shape timestamp to more readable format
     plt.xticks(tick_positions, timestamp_readable, rotation='vertical', ha="center") # replace ticks with timestamps
     fig.tight_layout()
-
     plt.show()
 
-
-
-
-
-    fig, ax = plt.subplots() # create canvas
-    ax.plot(range(0,len(df_ezo)), df_ezo['ppmv'], label="Water Vapor Concentration (parts per million)", color='orange')
-    #ax.plot(range(0,len(df)), df['measurement'], label="Temperature [C]", color='orange')
-    plt.show()
 
