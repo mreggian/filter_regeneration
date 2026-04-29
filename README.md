@@ -29,15 +29,27 @@ Please grab the "Filter Regeneration Kit", it should contain the following items
 * Purchase:
   * Gas mix (95% argon and 5% hydrogen)
   * [Fiberglass blanket](https://www.mcmaster.com/4579N12/)
+ 
+### Installation
 
 Follow the instructions below:
+- Prepare the filter:
+  - Wrap the heating tape around the filter evenly (leave both plugs close together to make it easier to connect them to the power strip). Connect both plugs to a power strip and plug it on the output plug of the PTC10 device.
+  - Cover everything with a fiberglass blanket and tape. Make sure to leave open an access to the plug for the temperature probe;
+  - Install temperature probe on the body of the filter, and connect it to port 3A of the PTC10 device (pay attention to the orientation).
+- Connect the regulator and the flowmeter on the argon&hydrogen cylinder, then connect the hose to the 1/2" VCR connector at the bottom of the filter. Make sure there is no gas flow at first.
+<img width="430" height="766" alt="Screenshot 2026-04-29 at 15 00 31" src="https://github.com/user-attachments/assets/43d24695-6e88-407a-a284-a3aecc3be8fc" />
 
-1. Wrap the heating tape around the filter, cover it with a fiberglass blanket and tape. Ensure to leave both plugs close together to make it easier to connect them to power later on. Plug both tapes to the same extension, and connect extention to output plug of the PTC10 device.
-3. Install temperature probe on the body of the filter, and to PTC10 on port 3A (pay attention to the orientation).
-4. Connect PTC10 device to computer via a USB cable.
-5. Connect adapters on the top of the filter, and hose to the exhaust pipe.
-6. Install EZO-HUM and EZO-PRS sensors, and connect them to the board with two arduinos. Each arduino is properly labelled, make sure to connect them correctly. Connect each arduino to the computer.
-7. Connect fan hose to exhaust venting system of the lab.
+- Connect the cross-shaped adapter to the pipe on top of the filter, after the yellow valve. Install the exhaust hose, and the EZO-HUM and EZO-PRS sensors as image below.
+  - The orange hose goes connected to the exhaust pipe of the lab.
+  - Connect EZO-HUM and EZO-PRS sensors to the arduino boards, follow labels, and then connect them to your computer using a USB cable.
+<img width="1343" height="529" alt="Screenshot 2026-04-29 at 14 58 54" src="https://github.com/user-attachments/assets/a34fed16-c4bb-4718-94c1-9f585a397918" />
+
+- Connect the PTC10 device to a computer using a USB cable.
+- Place the fan on the top of the structure and connect it to the ventilation system of the lab.
+- Cover the structure holding the filter with plastic, to avoid the smell of burn and any other evaporated chemical to spread in the lab.
+
+### Calibrating sensors
 
 The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous time we regenerated the filter. But, follow steps below in case you need to re-calibrate them.
 * **EZO-PRS sensor**. Use the 1/4" NPTM-1/2" VCRF adaptor to connect the EZO-PRS sensor directly to the hose coming from the argon-gas-mix dewar. Set pressure on regulator to 5 PSI, and use command `Cal,5` on ArduinoUNO software.
