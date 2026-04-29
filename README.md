@@ -12,6 +12,15 @@ Variables of interest, the the name of the device used for collecting this infor
 3. Humidity, dew point and temperature on the top of the filter (device: EZO-HUM sensor)
 4. Pressure at the top of the filter (device: EZO-PRS sensor)
 
+## List of files in Repository
+
+- `back_up_files.sh`: backs up data from InfluxDB into CSV files. Information is retrieved from the PTC10, EZO-HUM and EZO-PRS devices. Back-up files are saved under `/daq/`
+- `monitor_ezo_sensors.py`: reads information from Arduinos (already saved into a text file) and saves the good-quality data into InfluxDB.
+- `monitor_ptc10.py`: reads information from PTC10 and saves it to InfluxDB.
+- `plotting_temp_and_water_concentration.py`: plots temperature at filter (collected by the temperature probe installed on the body of the filter) and the water concentration in ppm, calculated from the dew point measured by the EZO-HUM sensor.
+- `setup.py`: activates the virtual environment, activates the USB ports (used by the PTC10 and EZO sensors), opens two CoolTerm windows and prints instructions on how to set it up in order to save data from Arduino into a text file.
+- `venv_regeneration.txt`: list of packages to be installed on virtual environment
+
 ## Hardware Preparation
 
 Please grab the "Filter Regeneration Kit", it should contain the following items:
