@@ -1,5 +1,5 @@
 # Author: Marina Reggiani-Guzzo
-# Last edited: 2024-06-17
+# Last edited: 2026-04-29
 
 #!/bin/bash
 
@@ -10,10 +10,6 @@ source venv_regeneration/bin/activate
 # activate usb ports
 echo 'Activating USB ports...'
 sudo chmod a+rw /dev/ttyUSB0 /dev/ttyACM0 /dev/ttyACM1
-
-# start collecting data from ptc10
-echo 'Starting data collection from ptc10...'
-python3 ptc10.py &
 
 # Open two windows of CoolTerm
 echo 'Opening CoolTerm...'
