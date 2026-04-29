@@ -41,16 +41,11 @@ def calc_water_vapor_concentration(df: pd.DataFrame, P=101325):
 
     df["e"] = np.where(
     T > 273.15,  # corresponds to dew_point > 0°C
-    (-6096.9385/T) + 21.2409642 - (2.711193*100*T) + (1.673952*T*T/100000) + (2.433502*np.log(T)),
-    (-6024.5282/T) + 29.32707 + (1.0613868*T/100) - (1.3198825*T*T/100000000) - (0.49382577*np.log(T))
+    np.exp((-6096.9385/T) + 21.2409642 - (2.711193e-2*T) + (1.673952e-5 * T**2) + (2.433502*np.log(T))),
+    np.exp((-6024.5282/T) + 29.32707 + (1.0613868e-2 *T) - (1.3198825e-5 *T**2) - (0.49382577*np.log(T)))
     )
 
-    df["e"] = np.exp(df["e"])
-
     df["ppmv"] = (df["e"]/P)*1000000
-
-    df_test = df[df.measurement > 3]
-    print(df_test[["measurement", "e", "ppmv"]].head(10))
 
     return df
 
@@ -74,15 +69,15 @@ if __name__ == "__main__":
     # Left y-axis 
     ax1.set_ylabel("Water Vapor Concentration [ppm]", color="tab:red")
     ax1.plot(range(0,len(df_ezo)), df_ezo['ppmv'], color="tab:red", linewidth=2)
-    ax1.tick_params(axis="y", labelcolor="tab:red")
+    ax1.tick_params(axis="y", labelcolor="tab:red", labelsize=15)
     ax1.yaxis.set_major_locator(MaxNLocator(nbins=10))
-    ax1.xaxis.set_major_locator(MaxNLocator(nbins=10))
+    ax1.xaxis.set_major_locator(MaxNLocator(nbins=6))
 
     # Right y-axis
     ax2 = ax1.twinx()
     ax2.set_ylabel("Temperature [C]", color="tab:blue")
     ax2.plot(df["timestamp"], df["measurement"], color="tab:blue", linewidth=2)
-    ax2.tick_params(axis="y", labelcolor="tab:blue")
+    ax2.tick_params(axis="y", labelcolor="tab:blue", labelsize=15)
     ax2.yaxis.set_major_locator(MaxNLocator(nbins=10))
 
 
@@ -91,7 +86,7 @@ if __name__ == "__main__":
     tick_positions = tick_positions[(tick_positions >= 0) & (tick_positions < len(df_ezo))]
     arr = df_ezo.iloc[tick_positions]["timestamp"].to_numpy() # retrieve timestamp from dataframe from the selected entries
     timestamp_readable = pd.to_datetime(arr).strftime("%b %-d, %Y\n%H:%M:%S") # re-shape timestamp to more readable format
-    plt.xticks(tick_positions, timestamp_readable, rotation='vertical', ha="center") # replace ticks with timestamps
+    plt.xticks(tick_positions, timestamp_readable, rotation='vertical', ha="center", fontsize=20) # replace ticks with timestamps
     fig.tight_layout()
     plt.show()
 
