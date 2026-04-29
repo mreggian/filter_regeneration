@@ -68,3 +68,21 @@ url = ""
 4. Make sure file names are correct on `monitor_ezo_sensors.py`. Open terminal and run `python3 monitor_ezo_sensors.py`. It collects and sends data from EZO sensors to InfluxDB.
 
 ### Starting the Regeneration Process
+
+ **Warm-up process:**
+
+- 2026-04-27
+  - 13:17 | `setpoint = 50 C` and `HiLmt = 150 W`
+  - 15:16 | `setpoint = 80 C`
+  - 16:29 | `setpoint = 120 C`
+- 2026-04-28
+  - 10:25 | `HiLmt = 200 W`
+  - 11:05 | `setpoint = 150 C`
+  - 13:33 | `HiLmt = 230 W`
+  - 15:16 | `setpoint = 180 C`
+  - 15:24 | `HiLmt = 300 W`
+- 2026-04-29
+  - 09:25 | `setpoint = 210 C`
+  - 10:52 | `setpoint = 220 C`
+  - 14:13 | `HiLmt = 250 W`
+  - 14:19 | `setpoint = 240 C`
