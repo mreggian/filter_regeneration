@@ -64,6 +64,14 @@ The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous t
 * **EZO-PRS sensor**. Use the 1/4" NPTM-1/2" VCRF adaptor to connect the EZO-PRS sensor directly to the hose coming from the argon-gas-mix dewar. Set pressure on regulator to 5 PSI, and use command `Cal,5` on ArduinoUNO software.
 * **EZO-HUM sensor**. We used the temperature probe connected to the body of the filter as our thermometer. We want both temperature sensors (EZO-HUM and Temperature Probe type K) to have the same initial reading. Once you know the room temperature use command `Cal,20` (if temperature is 20C) on ArduinoUNO software.
 
+### Calibrating the PTC10 device
+- Settings for the output channel:
+<img width="554" height="410" alt="Screenshot 2026-04-29 at 16 06 45" src="https://github.com/user-attachments/assets/4786cdf0-c49c-48c2-bafd-5f47090f445f" />
+
+- Settings for the temperature probe channel, 3A:
+<img width="554" height="410" alt="Screenshot 2026-04-29 at 16 07 49" src="https://github.com/user-attachments/assets/26166f30-8337-458f-a9fd-7141efd3e4ac" />
+
+
 
 ## Software Preparation
 
@@ -93,7 +101,7 @@ url = ""
 
 ### Starting the Regeneration Process
 
- **Warm-up process:**
+ **Warm-up process:** The first thing is to warm up the filter to 250 C. Find below the steps taken during our first regeneration. The variables listed below are: `setpoint = temperature goal` and `HiLmt = upper limit for power provided to the heating tapes`.
 
 - 2026-04-27
   - 13:17 | `setpoint = 50 C` and `HiLmt = 150 W`
@@ -110,3 +118,4 @@ url = ""
   - 10:52 | `setpoint = 220 C`
   - 14:13 | `HiLmt = 250 W`
   - 14:19 | `setpoint = 240 C`
+  - 15:53 | `HiLmt = 400 W`
