@@ -77,9 +77,10 @@ ORG = ""
 BUCKET = ""
 url = ""
 ```
-2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal.
-3. Open terminal and run `python3 monitor_ptc10.py`. It collects and sends data from PTC10 to InfluxDB.
-4. Make sure file names are correct on `monitor_ezo_sensors.py`. Open terminal and run `python3 monitor_ezo_sensors.py`. It collects and sends data from EZO sensors to InfluxDB.
+2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal on how to set up CoolTerm and save data from Arduino to a text file.
+3. [Install InfluxDB](https://docs.influxdata.com/influxdb/v2/install/) and activate (`sudo service influxdb`) and check status (`sudo service influxdb status`).
+4. Open terminal and run `python3 monitor_ptc10.py`. It collects and sends data from PTC10 to InfluxDB.
+5. Open terminal and run `python3 monitor_ezo_sensors.py`. It collects and sends data from EZO sensors to InfluxDB.
 
 ### Starting the Regeneration Process
 
