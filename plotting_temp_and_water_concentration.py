@@ -30,31 +30,27 @@ def create_dataframe(filename: str):
 
 def calc_water_vapor_concentration(df: pd.DataFrame, P=101325):
 
-    # For reference:
-    # https://www.processsensing.com/en-us/blog/converting-dew-point-other-measuring-units.htm
-
     # convert celcius to kelvin
     df["measurement_K"] = df["measurement"] + 273.15
     T = df["measurement_K"]
 
+    #if T>273.15:
+    #    df["e"] = (-6096.9385 / T) + 21.2409642 - 2.711193 * T + 1.673952e-5 * T + 2.433502 * np.log(T)
+    #else:
+    #    df["e"] = (-6024.5282 / T) + 29.32707 + 1.0613868 * T / 100 - 1.3198825e-5 * T**2 - 0.49382577 * np.log(T)
+
     df["e"] = np.where(
     T > 273.15,  # corresponds to dew_point > 0°C
-    (-6096.9385 / T)
-    + 21.2409642
-    - 2.711193 * T
-    + 1.673952e-5 * T
-    + 2.433502 * np.log(T),
-
-    (-6024.5282 / T)
-    + 29.32707
-    + 1.0613868 * T / 100
-    - 1.3198825e-5 * T**2
-    - 0.49382577 * np.log(T)
-)
+    (-6096.9385/T) + 21.2409642 - (2.711193*100*T) + (1.673952*T*T/100000) + (2.433502*np.log(T)),
+    (-6024.5282/T) + 29.32707 + (1.0613868*T/100) - (1.3198825*T*T/100000000) - (0.49382577*np.log(T))
+    )
 
     df["e"] = np.exp(df["e"])
 
     df["ppmv"] = (df["e"]/P)*1000000
+
+    df_test = df[df.measurement > 3]
+    print(df_test[["measurement", "e", "ppmv"]].head(10))
 
     return df
 
@@ -75,14 +71,14 @@ if __name__ == "__main__":
 
     fig, ax1 = plt.subplots()
 
-    # Left y-axis → Temperature
+    # Left y-axis 
     ax1.set_ylabel("Water Vapor Concentration [ppm]", color="tab:red")
     ax1.plot(range(0,len(df_ezo)), df_ezo['ppmv'], color="tab:red", linewidth=2)
     ax1.tick_params(axis="y", labelcolor="tab:red")
     ax1.yaxis.set_major_locator(MaxNLocator(nbins=10))
-    ax1.xaxis.set_major_locator(MaxNLocator(nbins=6))
+    ax1.xaxis.set_major_locator(MaxNLocator(nbins=10))
 
-    # Right y-axis → Power
+    # Right y-axis
     ax2 = ax1.twinx()
     ax2.set_ylabel("Temperature [C]", color="tab:blue")
     ax2.plot(df["timestamp"], df["measurement"], color="tab:blue", linewidth=2)
