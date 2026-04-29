@@ -119,3 +119,7 @@ url = ""
   - 14:13 | `HiLmt = 250 W`
   - 14:19 | `setpoint = 240 C`
   - 15:53 | `HiLmt = 400 W`
+  - 16:23 | Open gas flow, pressure=10, flow=30
+  - 16:35 | pressure=10, flow=85
+  - 16:40 | `setpoint = 250 C` and `HiLmt = 450 W`
+  - 16:51 | pressure=10, flow=40 (cylinder pressure = 2,600PSI)
