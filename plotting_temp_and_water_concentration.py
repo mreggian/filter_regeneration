@@ -16,6 +16,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MaxNLocator
+from datetime import datetime
 
 def create_dataframe(filename: str):
     df = pd.read_csv(filename, low_memory=False)
@@ -45,7 +46,10 @@ def calc_water_vapor_concentration(df: pd.DataFrame, P=101325):
     np.exp((-6024.5282/T) + 29.32707 + (1.0613868e-2 *T) - (1.3198825e-5 *T**2) - (0.49382577*np.log(T)))
     )
 
-    df["ppmv"] = (df["e"]/P)*1000000
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df["P"] = np.where(df['timestamp'] < pd.Timestamp("2026-04-29T16:23:00Z"), 101325, 101325) #68947.6)   
+
+    df["ppmv"] = (df["e"]/df["P"])*1000000
 
     return df
 
