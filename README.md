@@ -51,7 +51,7 @@ Follow the instructions below:
 
 - Connect the cross-shaped adapter to the pipe on top of the filter, after the yellow valve. Install the exhaust hose, and the EZO-HUM and EZO-PRS sensors as image below.
   - The orange hose goes connected to the exhaust pipe of the lab.
-  - Connect EZO-HUM and EZO-PRS sensors to the arduino boards, follow labels, and then connect them to your computer using a USB cable.
+  - Connect EZO-HUM and EZO-PRS sensors to the arduino boards (red cable=5V, black cable=GND, green cable=Digital Channel 2, white cable=Digital Channel 3, for both sensors), follow labels, and then connect them to your computer using a USB cable.
 <img width="1343" height="529" alt="Screenshot 2026-04-29 at 14 58 54" src="https://github.com/user-attachments/assets/a34fed16-c4bb-4718-94c1-9f585a397918" />
 
 - Connect the PTC10 device to a computer using a USB cable.
