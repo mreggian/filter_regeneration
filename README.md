@@ -25,15 +25,22 @@ Variables of interest, the the name of the device used for collecting this infor
 
 Please grab the "Filter Regeneration Kit", it should contain the following items:
 * 1x [PTC10 Temperature Controller](https://www.thinksrs.com/products/ptc10.html) with PTC330K and PTC420 cards
-* 2x [heating tapes](https://www.mcmaster.com/3641K17/);
-* Extension cord (to be used with heating tapes);
-* [EZO-PRS](https://atlas-scientific.com/product/pressure-sensor/?srsltid=AfmBOopZfapj54Jq4X8SrQzSNvsDnx7D30NAhOcFSfpvjAbZaWylhGV-) and [EZO-HUM](https://atlas-scientific.com/probes/humidity-probe/?srsltid=AfmBOooUSNPaoxlnDZgBcq05bG310ZNOctu_RlRq1W5-tr1qAW-cpYpQ) sensors;
-* Acrylic board with two arduinos;
-* 3x USB cables (2 long, 1 short);
+* 2x [heating tapes](https://www.mcmaster.com/3641K17/)
+* 1x extension cord
+* 1x [EZO-PRS](https://atlas-scientific.com/product/pressure-sensor/?srsltid=AfmBOopZfapj54Jq4X8SrQzSNvsDnx7D30NAhOcFSfpvjAbZaWylhGV-) sensor
+* 1x [EZO-HUM](https://atlas-scientific.com/probes/humidity-probe/?srsltid=AfmBOooUSNPaoxlnDZgBcq05bG310ZNOctu_RlRq1W5-tr1qAW-cpYpQ) sensor
+* Acrylic board with two arduinos
+* 3x USB cables (2 long, 1 short)
+* System to connect argon gas dewar to filter:
+  * [Regulator](https://harrisweldingsupplies.com/harris-model-425-hydrogen-methane-single-stage-regulator-425-50a-350-3000784/)
+  * [Flowmeter](https://harrisweldingsupplies.com/harris-model-55-2he-h2-90-9-16-in-18-f-compensated-flowmeter-5400612/) -- replace connector
+  * [5/18”-18 UNF M — 1/4” NPT M adapter](https://www.mcmaster.com/7919A52/)
+  * [Hose](https://www.mcmaster.com/5665K61/)
+  * [1/4" NPT F - 3/8" NPT M Adapter](https://www.mcmaster.com/4452K163/)
+  * [3/8" NPT F - 1/2" VNC F Adapter](https://products.swagelok.com/en/c/straights/p/SS-8-VCR-7-6?q=:relevance:connection1Size:1%2F2+in.:connection2Type:Female+NPT)
 * Connectors to install EZO sensors and exhaust hose;
-* Orange hose (for exhaust system);
+* Orange hose;
 * Exhaust fan and black hose;
-* Regulator, flowmeter and hose system (to be connected to dewar);
 * [VCR to NPT adapter](https://www.mcmaster.com/9066N406/);
 * Purchase:
   * Gas mix (95% argon and 5% hydrogen)
@@ -65,10 +72,17 @@ The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous t
 * **EZO-HUM sensor**. We used the temperature probe connected to the body of the filter as our thermometer. We want both temperature sensors (EZO-HUM and Temperature Probe type K) to have the same initial reading. Once you know the room temperature use command `Cal,20` (if temperature is 20C) on ArduinoUNO software.
 
 ### Calibrating the PTC10 device
-- Settings for the output channel:
+
+Calibrating the PTC10 device is a crucial step, without whose the PID feedback does not work. The calibration should be done with the system ready for the regeneration process, meaning: the heating tapes placed around the filter, the temperature probe installed in the filter, and everything surrounded by the thermally insulating blanket. This is important because we want the temperature controller to have a real sense of how much it takes for the system to warm up and to cool down. Once everything is installed, the calibration was done by choosing the following parameters:
+- Output channel: under Tune, `Step Y = 150.0 W` and `Lag = 600 s` and `Type = moderate`. For the calibration step, `HiLmt = 150.0 W`.
+- Temperature probe channel: `Lopass = 300 s`.
+
+The calibration is then performed by clicking on `Tune > Mode > Auto`. See below a picture of the overall configuration for both channels of interest: output and temperature probe.
+
+Settings for the output channel:
 <img width="554" height="410" alt="Screenshot 2026-04-29 at 16 06 45" src="https://github.com/user-attachments/assets/4786cdf0-c49c-48c2-bafd-5f47090f445f" />
 
-- Settings for the temperature probe channel, 3A:
+Settings for the temperature probe channel, 3A:
 <img width="554" height="410" alt="Screenshot 2026-04-29 at 16 07 49" src="https://github.com/user-attachments/assets/26166f30-8337-458f-a9fd-7141efd3e4ac" />
 
 
@@ -77,9 +91,7 @@ The EZO-HUM and EZO-PRS sensors should already be calibrated from the previous t
 
 The steps below will consider that you already have all the devices properly installed and ready for data acquisition.
 
-You should also have a file `influxdb_config.py` with the following information
-
-
+1. [Install InfluxDB](https://docs.influxdata.com/influxdb/v2/install/) on your computer, and create a database to storage the data. Make sure to write down the root token displayed on the screen when you create a new database, it will not be able to generate it again, and it is needed to backup your files later on! Activate the InfluxDB server (`sudo service influxdb`) and check if status is listed as "Active" (`sudo service influxdb status`).
 1. [Only required on first time] Download files and prepare environment
     1. Download repository on the computer you're going to use for the procedure
     2. Open the repository on a terminal
@@ -95,7 +107,6 @@ BUCKET = ""
 url = ""
 ```
 2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal on how to set up CoolTerm and save data from Arduino to a text file.
-3. [Install InfluxDB](https://docs.influxdata.com/influxdb/v2/install/) and activate (`sudo service influxdb`) and check status (`sudo service influxdb status`).
 4. Open terminal and run `python3 monitor_ptc10.py`. It collects and sends data from PTC10 to InfluxDB.
 5. Open terminal and run `python3 monitor_ezo_sensors.py`. It collects and sends data from EZO sensors to InfluxDB.
 
@@ -123,3 +134,7 @@ url = ""
   - 16:35 | pressure=10, flow=85
   - 16:40 | `setpoint = 250 C` and `HiLmt = 450 W`
   - 16:51 | pressure=10, flow=40 (cylinder pressure = 2,600PSI)
+- 2026-05-01, 9:40 | Stopped flow of Ar/H gas since the bottle pressure was getting very low, and we don't want atmosphere to flow back into the dry filter
+- 2026-05-04, 10:50 | Turned off all DAQ, new backup files
+
+
