@@ -92,7 +92,7 @@ Settings for the temperature probe channel, 3A:
 The steps below will consider that you already have all the devices properly installed and ready for data acquisition.
 
 1. [Install InfluxDB](https://docs.influxdata.com/influxdb/v2/install/) on your computer, and create a database to storage the data. Make sure to write down the root token displayed on the screen when you create a new database, it will not be able to generate it again, and it is needed to backup your files later on! Activate the InfluxDB server (`sudo service influxdb`) and check if status is listed as "Active" (`sudo service influxdb status`).
-1. [Only required on first time] Download files and prepare environment
+2. [Only required on first time] Download files and prepare environment
     1. Download repository on the computer you're going to use for the procedure
     2. Open the repository on a terminal
     3. Create a virtual environment: `python3 -m venv venv_regeneration`
@@ -106,9 +106,10 @@ ORG = ""
 BUCKET = ""
 url = ""
 ```
-2. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal on how to set up CoolTerm and save data from Arduino to a text file.
+3. [From second time] Setup environment by running `source setup.sh`, and follow instructions on terminal on how to set up CoolTerm and save data from Arduino to a text file.
 4. Open terminal and run `python3 monitor_ptc10.py`. It collects and sends data from PTC10 to InfluxDB.
 5. Open terminal and run `python3 monitor_ezo_sensors.py`. It collects and sends data from EZO sensors to InfluxDB.
+6. Back up data from InfluxDB into a CSV file by running `source back_up_files.sh`. It will create a CSV backup file for all the data collected (from PTC10 and EZO sensors) in the /daq/ folder.
 
 ### Starting the Regeneration Process
 
