@@ -14,7 +14,9 @@ Variables of interest, the the name of the device used for collecting this infor
 
 ## List of files in Repository
 
-- `back_up_files.sh`: backs up data from InfluxDB into CSV files. Information is retrieved from the PTC10, EZO-HUM and EZO-PRS devices. Back-up files are saved under `/daq/`
+- `ModifiedArduinoScript_Environment.txt` and `ModifiedArduinoScript_Pressure.txt`: scripts to be uploaded to the Arduino boards to monitor the environment and pressure conditions.
+- `back_up_files.sh`: backs up data from InfluxDB into CSV files. Information is retrieved from the PTC10, EZO-HUM and EZO-PRS devices. Back-up files are saved under `/daq/`.
+- `backup_ezohum_data_compress.zip`, `backup_ezoprs_data_compress.zip` and `backup_ptc_data_compress.zip`: backup files with data collected during the regeneration process.
 - `monitor_ezo_sensors.py`: reads information from Arduinos (already saved into a text file) and saves the good-quality data into InfluxDB.
 - `monitor_ptc10.py`: reads information from PTC10 and saves it to InfluxDB.
 - `plotting_temp_and_water_concentration.py`: plots temperature at filter (collected by the temperature probe installed on the body of the filter) and the water concentration in ppm, calculated from the dew point measured by the EZO-HUM sensor.
